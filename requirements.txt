@@ -1,0 +1,8 @@
+streamlit 
+pandas
+datetime
+matplotlib
+joblib
+seaborn
+scikit-learn==1.2.2
+plotly
