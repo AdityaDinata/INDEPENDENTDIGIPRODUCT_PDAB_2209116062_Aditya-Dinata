@@ -55,15 +55,17 @@ def main():
     elif page_option == "Visualisasi":
         st.markdown('---')
         st.markdown('# Visualisasi')
-        # Add your visualization options here
+        # Tambahkan pilihan visualisasi di sini
 
-        if st.button('Tampilkan Scatter Plot Temperature vs EnergyConsumption'):
-            st.subheader('Scatter Plot Temperature vs EnergyConsumption')
-            fig = px.scatter(df, x='Temperature', y='EnergyConsumption', title='Scatter Plot Temperature vs EnergyConsumption')
+        pilihan_visualisasi = st.selectbox('Pilih Visualisasi', ['Scatter Plot Suhu vs Konsumsi Energi', 'Heatmap Korelasi', 'Line Plot Konsumsi Energi per Jam', 'Line Plot Trend Konsumsi Energi', 'Grafik Temperatur Harian dan Rata-rata'])
+
+        if pilihan_visualisasi == 'Scatter Plot Suhu vs Konsumsi Energi':
+            st.subheader('Scatter Plot Suhu vs Konsumsi Energi')
+            fig = px.scatter(df, x='Temperature', y='EnergyConsumption', title='Scatter Plot Suhu vs Konsumsi Energi')
             st.plotly_chart(fig)
-            st.write ('Diagram Scatter Plot menunjukkan hubungan positif antara suhu dan konsumsi energi untuk skuter(scooters). Seiring bertambahnya suhu, konsumsi energi juga meningkat.')
+            st.write ('Diagram Scatter Plot menunjukkan hubungan positif antara suhu dan konsumsi energi untuk skuter. Seiring bertambahnya suhu, konsumsi energi juga meningkat.')
 
-        if st.button('Tampilkan Heatmap Korelasi'):
+        elif pilihan_visualisasi == 'Heatmap Korelasi':
             st.subheader('Heatmap Korelasi')
             plt.figure(figsize=(10, 6))
             sns.heatmap(df.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
@@ -72,7 +74,7 @@ def main():
             Suhu dan konsumsi energi memiliki korelasi positif sebesar 0,7. Ini berarti bahwa ketika suhu meningkat, konsumsi energi juga meningkat. Hal ini kemungkinan karena orang menggunakan lebih banyak energi untuk mendinginkan rumah mereka pada saat cuaca panas.
             ''')
 
-        if st.button('Tampilkan Line Plot Konsumsi Energi per Jam'):
+        elif pilihan_visualisasi == 'Line Plot Konsumsi Energi per Jam':
             st.subheader('Line Plot Konsumsi Energi per Jam')
             df['Hour'] = df['Timestamp'].dt.hour
             df_hourly_energy = df.groupby('Hour')['EnergyConsumption'].mean()
@@ -84,7 +86,7 @@ def main():
             st.pyplot()
             st.write(''' Garis plot menunjukkan tren konsumsi energi yang meningkat dari jam 0 hingga jam 15, kemudian menurun hingga jam 20. Nilai konsumsi energi terendah adalah 75 kWh pada jam 0, dan nilai tertinggi adalah 79 kWh pada jam 15.''')
 
-        if st.button('Tampilkan Line Plot Trend Konsumsi Energi'):
+        elif pilihan_visualisasi == 'Line Plot Trend Konsumsi Energi':
             st.subheader('Line Plot Trend Konsumsi Energi')
             df_daily_energy = df.resample('D', on='Timestamp')['EnergyConsumption'].mean()
             plt.figure(figsize=(10, 6))
@@ -95,7 +97,7 @@ def main():
             st.pyplot()
             st.write('Grafik garis menunjukkan tren konsumsi energi yang meningkat selama periode pengukuran. Rata rata konsumsi energi harian tertinggi terdapat pada tanggal 2022-02-05 dan rata rata konsumsi energi harian terendah terdapat pada tanggal 2022-01-03.')
 
-        if st.button('Tampilkan Grafik Temperatur Harian dan Rata-rata'):
+        elif pilihan_visualisasi == 'Grafik Temperatur Harian dan Rata-rata':
             st.subheader('Grafik Temperatur Harian dan Rata-rata')
             # Kelompokkan data berdasarkan hari dan hitung rata-rata temperatur per hari
             df_daily_temperature = df.resample('D', on='Timestamp')['Temperature'].mean()
@@ -114,6 +116,8 @@ def main():
             plt.grid(True)
             st.pyplot()
             st.write('Bisa dilihat untuk grafik Line Plot diatas bahwa rata rata temperatur harian dari tanggal 2022-01-01 sampai 2022-02-11 adalah 25°C.')
+
+
 
 
 
